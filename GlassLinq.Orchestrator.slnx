@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="GlassLinq.Orchestrator.Client/GlassLinq.Orchestrator.Client.csproj" />
+  <Project Path="GlassLinq.Orchestrator/GlassLinq.Orchestrator.csproj" />
+</Solution>

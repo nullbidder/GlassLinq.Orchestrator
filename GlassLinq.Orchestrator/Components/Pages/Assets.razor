@@ -1,0 +1,32 @@
+﻿@page "/assets"
+@using Microsoft.AspNetCore.Components.QuickGrid
+
+<PageTitle>Assets</PageTitle>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 style="color: white;">Credential Assets</h1>
+    <button class="btn btn-outline-info" style="border-color: var(--accent-cyan); color: var(--accent-cyan);">
+        + Add New Asset
+    </button>
+</div>
+
+<div class="grid-container" style="background: var(--bg-panel); padding: 20px; border-radius: 8px;">
+    <table class="table table-dark table-hover">
+        <thead>
+            <tr style="color: var(--text-muted); border-bottom: 2px solid var(--border-color);">
+                <th>Name</th>
+                <th>Type</th>
+                <th>Vault Status</th>
+                <th>Last Updated</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="color: var(--accent-cyan);">SAP_Production_Login</td>
+                <td>Credential</td>
+                <td><span class="badge bg-success">Compliant</span></td>
+                <td>10 mins ago</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

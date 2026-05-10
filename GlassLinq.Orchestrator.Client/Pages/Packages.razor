@@ -1,0 +1,71 @@
+﻿@page "/packages/{PackageName}"
+@using Microsoft.AspNetCore.Components.QuickGrid
+
+<div class="content-wrapper">
+    <div class="sub-header-breadcrumb">
+        <span class="bi bi-folder2-open me-2"></span>
+        <span class="text-muted">Folders</span>
+        <span class="bi bi-chevron-right mx-2 text-muted" style="font-size: 0.7rem;"></span>
+        <strong>@PackageName</strong>
+    </div>
+
+    <div class="folder-navigation-tabs">
+        <div class="nav-tab active">Home</div>
+        <div class="nav-tab">Automations</div>
+        <div class="nav-tab">Monitoring</div>
+        <div class="nav-tab">Queues</div>
+        <div class="nav-tab">Assets</div>
+        <div class="nav-tab">Connections</div>
+        <div class="nav-tab">Business Rules <span class="badge-preview">Preview</span></div>
+        <div class="nav-tab">Storage Buckets</div>
+        <div class="nav-tab">MCP Servers</div>
+    </div>
+
+    <div class="package-content-body">
+        <div class="filter-bar d-flex align-items-center mb-3">
+            <div class="search-input-wrapper">
+                <span class="bi bi-search search-icon"></span>
+                <input type="text" placeholder="Search" class="orchestrator-search" />
+            </div>
+            <div class="ms-auto d-flex gap-2">
+                <button class="btn-orchestrator-secondary"><span class="bi bi-plus"></span> Add</button>
+                <button class="btn-orchestrator-primary"><span class="bi bi-play-fill"></span> Start job</button>
+            </div>
+        </div>
+
+        <div class="grid-container">
+            <h5 class="section-title">Latest jobs</h5>
+            @if (PackageData != null)
+            {
+                <QuickGrid Items="@PackageData" Class="orchestrator-table">
+                    <PropertyColumn Property="@(p => p.Name)" Title="Process" Sortable="true" />
+                    <PropertyColumn Property="@(p => p.Location)" Title="Location" Sortable="true" />
+                    <PropertyColumn Property="@(p => p.Type)" Title="Type" Sortable="true" />
+                    <PropertyColumn Property="@(p => p.State)" Title="State" Sortable="true" />
+                </QuickGrid>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public string PackageName { get; set; } = "";
+
+    // This resolves the 'PackageData does not exist' error
+    private IQueryable<JobRecord>? PackageData;
+
+    public record JobRecord(string Name, string Location, string Type, string State);
+
+    protected override void OnInitialized()
+    {
+        // Sample data matching your "Latest Jobs" requirement
+        var items = new List<JobRecord>
+        {
+            new JobRecord("Process_Invoices", "Local", "Unattended", "Successful"),
+            new JobRecord("Daily_Report", "Cloud", "Attended", "Running"),
+            new JobRecord("System_Audit", "Local", "Unattended", "Faulted")
+        };
+
+        PackageData = items.AsQueryable();
+    }
+}

@@ -1,0 +1,78 @@
+﻿@inherits LayoutComponentBase
+@inject NavigationManager Navigation
+
+<div class="orchestrator-layout">
+    <aside class="folder-sidebar">
+        <div class="tenant-nav-item @(IsActive("tenant") ? "active" : "")" @onclick='() => Navigation.NavigateTo("/tenant/overview")'>
+            <span class="bi bi-globe me-2"></span>
+            <strong>GlassLinq.Orchestrator</strong>
+        </div>
+        
+        <div class="sidebar-header">Folders</div>
+        <div class="folder-tree">
+            @foreach (var folder in Folders)
+            {
+                <div class="tree-node">
+                    <div class="folder-item" @onclick="() => folder.IsExpanded = !folder.IsExpanded">
+                        <span class="bi @(folder.IsExpanded ? "bi-chevron-down" : "bi-chevron-right") tree-arrow"></span>
+                        <span class="bi bi-folder-fill folder-icon"></span>
+                        <span>@folder.Name</span>
+                    </div>
+                    @if (folder.IsExpanded)
+                    {
+                        @foreach (var subItem in folder.SubItems)
+                        {
+                            <div class="tree-sub-item" @onclick='() => Navigation.NavigateTo($"/packages/{subItem}")'>
+                                <span class="bi bi-box-seam me-2"></span> @subItem
+                            </div>
+                        }
+                    }
+                </div>
+            }
+        </div>
+    </aside>
+
+    <div class="main-wrapper">
+        @if (Navigation.Uri.Contains("/tenant/"))
+        {
+            <header class="orchestrator-header">
+                <div class="header-tabs">
+                    <NavLink class="nav-tab" href="tenant/overview">Overview</NavLink>
+                    <NavLink class="nav-tab" href="tenant/monitoring">Monitoring</NavLink>
+                    <NavLink class="nav-tab" href="tenant/robots">Robots</NavLink>
+                    <NavLink class="nav-tab" href="tenant/folders">Folders</NavLink>
+                    <NavLink class="nav-tab" href="tenant/credentials">Credentials</NavLink>
+                    <NavLink class="nav-tab" href="tenant/settings">Settings</NavLink>
+                </div>
+                <div class="header-actions ms-auto">
+                    <button class="btn-orchestrator-secondary">Add</button>
+                    <button class="btn-orchestrator-secondary">Access</button>
+                    <button class="btn-orchestrator-primary">Deploy</button>
+                </div>
+            </header>
+        }
+
+        <main class="page-content">
+            @Body
+        </main>
+    </div>
+</div>
+@code {
+    // 1. Define variables once
+    private List<FolderNode> Folders = new() {
+        new FolderNode { Name = "Automations", SubItems = new() { "Debug_Solution" } }
+    };
+
+    // 2. Logic for Sidebar highlighting and Folder toggling
+    private bool IsActive(string segment) => Navigation.Uri.Contains(segment);
+    private void ToggleFolder(FolderNode folder) => folder.IsExpanded = !folder.IsExpanded;
+    private void NavigateToTenant() => Navigation.NavigateTo("/tenant/overview");
+
+    // 3. Define the class at the very bottom, once.
+    public class FolderNode
+    {
+        public string Name { get; set; } = "";
+        public bool IsExpanded { get; set; } = true;
+        public List<string> SubItems { get; set; } = new();
+    }
+}

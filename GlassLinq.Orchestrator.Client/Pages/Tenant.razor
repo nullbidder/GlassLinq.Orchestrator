@@ -1,0 +1,49 @@
+﻿@page "/tenant/{TabName}"
+
+<div class="content-wrapper">
+    <div class="tenant-header-section">
+        <div class="d-flex align-items-center p-3">
+             <div class="tenant-icon-box me-3">
+                 <span class="bi bi-globe text-white"></span>
+             </div>
+             <div>
+                 <h4 class="mb-0">Tenant</h4>
+                 <small class="text-muted">Cross-folder and tenant level overview</small>
+             </div>
+             <div class="ms-auto d-flex gap-2">
+                 <button class="btn-orchestrator-secondary"><span class="bi bi-plus"></span> Add</button>
+                 <button class="btn-orchestrator-secondary"><span class="bi bi-people"></span> Access</button>
+                 <button class="btn-orchestrator-primary"><span class="bi bi-rocket-takeoff"></span> Deploy</button>
+             </div>
+        </div>
+
+        <div class="folder-navigation-tabs">
+            <div class="nav-tab @(TabName == "overview" ? "active" : "")" @onclick='() => ChangeTab("overview")'>Overview</div>
+            <div class="nav-tab @(TabName == "monitoring" ? "active" : "")" @onclick='() => ChangeTab("monitoring")'>Monitoring</div>
+            <div class="nav-tab @(TabName == "robots" ? "active" : "")" @onclick='() => ChangeTab("robots")'>Robots</div>
+            <div class="nav-tab @(TabName == "folders" ? "active" : "")" @onclick='() => ChangeTab("folders")'>Folders</div>
+            <div class="nav-tab @(TabName == "credentials" ? "active" : "")" @onclick='() => ChangeTab("credentials")'>Credentials</div>
+            <div class="nav-tab">Settings</div>
+        </div>
+    </div>
+
+    <div class="tenant-content-body p-4">
+        @if (TabName == "overview") {
+            <h5>Deployments overview</h5>
+            <div class="empty-state-placeholder">
+                <span class="bi bi-eye-slash"></span>
+                <p>No data to display yet.</p>
+            </div>
+        }
+        else if (TabName == "credentials") {
+             <CredentialsTable /> @* Call your original credentials component here *@
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public string TabName { get; set; } = "overview";
+    [Inject] private NavigationManager Navigation { get; set; }
+
+    private void ChangeTab(string tab) => Navigation.NavigateTo($"/tenant/{tab}");
+}
