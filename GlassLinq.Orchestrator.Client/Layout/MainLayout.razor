@@ -3,33 +3,32 @@
 
 <div class="orchestrator-layout">
     <aside class="folder-sidebar">
-        <div class="tenant-nav-item @(IsActive("tenant") ? "active" : "")" @onclick='() => Navigation.NavigateTo("/tenant/overview")'>
-            <span class="bi bi-globe me-2"></span>
-            <strong>GlassLinq.Orchestrator</strong>
+        <div class="sidebar-brand d-flex align-items-center p-3 clickable-brand @(IsActive("tenant") ? "active-brand" : "")"
+             @onclick='() => Navigation.NavigateTo("/tenant/overview")'>
+            <img src="imgs/GL_icon_full.png" alt="Logo" class="brand-icon me-2" />
+            <strong class="brand-text">GlassLinq.Orchestrator</strong>
         </div>
-        
-        <div class="sidebar-header">Folders</div>
-        <div class="folder-tree">
-            @foreach (var folder in Folders)
-            {
-                <div class="tree-node">
-                    <div class="folder-item" @onclick="() => folder.IsExpanded = !folder.IsExpanded">
-                        <span class="bi @(folder.IsExpanded ? "bi-chevron-down" : "bi-chevron-right") tree-arrow"></span>
-                        <span class="bi bi-folder-fill folder-icon"></span>
-                        <span>@folder.Name</span>
-                    </div>
-                    @if (folder.IsExpanded)
-                    {
-                        @foreach (var subItem in folder.SubItems)
-                        {
-                            <div class="tree-sub-item" @onclick='() => Navigation.NavigateTo($"/packages/{subItem}")'>
-                                <span class="bi bi-box-seam me-2"></span> @subItem
-                            </div>
-                        }
-                    }
+
+        <div class="sidebar-header">My Folders</div>
+        @foreach (var folder in Folders)
+        {
+            <div class="tree-node">
+                <div class="folder-item" @onclick="() => ToggleFolder(folder)">
+                    <span class="bi @(folder.IsExpanded ? "bi-chevron-down" : "bi-chevron-right") tree-arrow"></span>
+                    <span class="bi bi-folder-fill folder-icon"></span>
+                    <span>@folder.Name</span>
                 </div>
-            }
-        </div>
+                @if (folder.IsExpanded)
+                {
+                    @foreach (var subItem in folder.SubItems)
+                    {
+                        <div class="tree-sub-item" @onclick='() => Navigation.NavigateTo($"/packages/{subItem}")'>
+                            <span class="bi bi-box-seam me-2"></span> @subItem
+                        </div>
+                    }
+                }
+            </div>
+        }
     </aside>
 
     <div class="main-wrapper">

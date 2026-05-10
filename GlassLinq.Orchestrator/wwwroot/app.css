@@ -15,6 +15,28 @@
     --text-main: #FFFFFF;
     --text-muted: #949BA5;
 }
+.sidebar-brand {
+    background-color: #1B1F26;
+    border-bottom: 1px solid #2E343D;
+    height: 70px; /* Matches the top header height */
+    display: flex;
+    align-items: center;
+}
+
+.brand-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 60%; /* Forces a circle */
+    object-fit: cover;
+    border: 3px solid rgba(0, 183, 195, 0.3); /* Optional cyan border */
+}
+
+.brand-text {
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
 
 /* =========================================
    2. GLOBAL RESET & LAYOUT

@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\imgs\GL_icon_full.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\GlassLinq.Orchestrator.Client\GlassLinq.Orchestrator.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid" Version="10.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.7" />
